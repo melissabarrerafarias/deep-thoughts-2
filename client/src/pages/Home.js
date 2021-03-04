@@ -1,0 +1,28 @@
+import React from 'react';
+import { useQuery } from '@apollo/react-hooks'; // allows for requests
+import { QUERY_THOUGHTS } from '../utils/queries';
+
+import ThoughtList from '../components/ThoughtList';
+
+const Home = () => {
+
+  const { loading, data } = useQuery(QUERY_THOUGHTS);
+
+  const thoughts = data?.thoughts || []; // optional chaining 
+
+  return (
+    <main>
+      <div className='flex-row justify-space-between'>
+        <div className="col-12 mb-3">
+          {loading ? (
+            <div>Loading...</div>
+          ) : (
+              <ThoughtList thoughts={thoughts} title="Some Feed for Thoughts(s)..." />
+            )}
+        </div>
+      </div>
+    </main>
+  );
+};
+
+export default Home;
