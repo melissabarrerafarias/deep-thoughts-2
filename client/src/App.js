@@ -14,6 +14,15 @@ import Signup from './pages/Signup';
 
 // establish connection to back-end server 
 const client = new ApolloClient({
+  request: operation => { // HTTP request headers of every request include the token
+    const token = localStorage.getItem('id_token');
+
+    operation.setContext({
+      headers: {
+        authorization: token ? `Bearer ${token}` : ''
+      }
+    })
+  },
   uri: '/graphql'
 })
 function App() {
@@ -24,13 +33,13 @@ function App() {
           <Header />
           <div className='container'>
             <Switch>
-            <Route exact path='/' component={Home} />
-            <Route exact path='/login' component={Login} />
-            <Route exact path='/signup' component={Signup} />
-            <Route exact path='/profile/:username?' component={Profile} />
-            <Route exact path='/thought/:id' component={SingleThought} />
+              <Route exact path='/' component={Home} />
+              <Route exact path='/login' component={Login} />
+              <Route exact path='/signup' component={Signup} />
+              <Route exact path='/profile/:username?' component={Profile} />
+              <Route exact path='/thought/:id' component={SingleThought} />
 
-            <Route component={NoMatch} /> 
+              <Route component={NoMatch} />
             </Switch>
           </div>
           <Footer />
